@@ -1,14 +1,15 @@
 ((window, Util, Squre) => {
     const util = new Util();
     class Sort {
-        constructor(arr, el, selectedColor = "#6cf", doneColor = "#f60") {
-            this.arr = arr;
-            this.sortedArr = arr.concat(); // 拷贝数组
+        constructor(opts) {
+            this.arr = opts.arr;
+            this.sortedArr = [...opts.arr]; // 拷贝数组
             this.snaps = this._getSnaps(); // 创建快照
             this.squres = this._createSqures(); // 在页面上创建方块 
-            this.containerEl = el; // 父容器
-            this.selectedColor = selectedColor; // 被选中时的颜色
-            this.doneColor = doneColor; // 完成后的颜色
+            this.containerEl = opts.el; // 父容器
+            this.color1 = opts.color1 || "pink";
+            this.color2 = opts.color2 || "yellowgreen";
+            this.color3 = opts.color3 || "orange";
             this._renderSqures();
             this._initStyle();
         }
@@ -37,64 +38,39 @@
         _getSnaps() {
             // 由子类实现
         }
-        _createSnap(curr, next, arr, isSwap = false, isDone = false) {
+        _createSnap(mode, curr, next) {
             return {
+                mode,
                 curr,
-                next,
-                arr,
-                isSwap,
-                isDone
+                next
             }
+        }
+        draw(obj) {
+            // 由子类实现
         }
         loop(index = 0) {
             if (index <= this.snaps.length - 1) {
                 let obj = this.snaps[index];
                 index += 1;
+                this.index = index;
                 this.draw(obj);
-                this.timer = setTimeout(() => this.loop(index), 100);
+                this.timer = setTimeout(() => this.loop(index), 500);
             } else {
                 return;
             }
         }
-        stop() {
-            clearTimeout(this.timer);
+        stopSort() {
+            this.timer && clearTimeout(this.timer);
         }
-        continue () {
+        continueSort() {
+            this.stopSort();
             this.loop(this.index);
         }
-        draw(obj) {
-            let arr = obj.arr;
-            let curr = this.squres[obj.curr]; // 获取当前的 target 方块
-            let next = this.squres[obj.next]; // 获取下一个的 target 方块
-
-            // 重置上一步渲染完的方块
-            if (this.oldCurr) {
-                this.oldCurr.setDefaultColor();
-            }
-            if (this.oldNext) {
-                this.oldNext.setDefaultColor();
-            }
-
-            // 给当前的的两个 target 加上 
-            curr.setColor(this.selectedColor);
-            next.setColor(this.selectedColor);
-            if (obj.isSwap) {
-                let p = curr.getPosition();
-                let el = curr.el;
-                curr.setPosition(next.getPosition()[0]);
-                next.setPosition(p[0]);
-                curr.el = next.el;
-                next.el = el;
-                this.oldCurr = curr;
-                this.oldNext = next;
-            } else if (obj.isDone) {
-                this.squres[obj.curr].setColor(this.doneColor);
-                this.oldCurr = "";
-                this.oldNext = "";
-            } else {
-                this.oldCurr = curr;
-                this.oldNext = next;
-            }
+        restoreSort() {
+            this.index = 0;
+            this.stopSort();
+            this._renderSqures();
+            this._initStyle();
         }
     }
 

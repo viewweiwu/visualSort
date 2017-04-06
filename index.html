@@ -4,13 +4,16 @@
 <head>
     <title></title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/main.css">
 </head>
 
 <body>
     <div class="container">
         <header>
-
+            <ul id="tabs" class="tabs">
+                <li data-sort="bubble" class="active">冒泡排序</li>
+                <li data-sort="select">选择排序</li>
+            </ul>
         </header>
         <main>
             <div id="squres" class="squres">
@@ -22,6 +25,11 @@
                 </div>
             </div>
         </main>
+        <footer>
+            <button id="continueBtn" class="btn">开始</button>
+            <button id="stopBtn" class="btn">暂停</button>
+            <button id="restore" class="btn">重置</button>
+        </footer>
     </div>
     <script src="./js/util.js"></script>
     <script src="./js/squre.js"></script>

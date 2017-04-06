@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+ul {
+  list-style: none;
+}
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.container > header {
+  height: 100px;
+  background-color: #eee;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container > header .tabs {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: flex-end;
+}
+.container > header .tabs li {
+  width: 100px;
+  height: 70%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: 300ms;
+}
+.container > header .tabs li:hover {
+  color: #fff;
+  background-color: #6cf;
+}
+.container > header .tabs li.active {
+  color: #fff;
+  background-color: #f60;
+}
+.container > main {
+  flex: 1;
+  background-color: #efc;
+  overflow: hidden;
+}
+.container > footer {
+  height: 100px;
+  background-color: #eee;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container > footer .btn {
+  margin: 10px;
+  padding: 5px 10px;
+}
+.squres {
+  left: 50%;
+  height: 500px;
+  margin: 30px;
+  position: absolute;
+  display: flex;
+  align-items: flex-end;
+  transform: translateX(-50%);
+}
+.squres .squre {
+  width: 50px;
+  margin: 10px;
+  border: 1px solid;
+  position: absolute;
+  transition: left 300ms;
+}
+.squres .squre .text {
+  left: 0;
+  bottom: 10px;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+}
+.squres .squre .text.top {
+  top: -30px;
+  bottom: auto;
+}
