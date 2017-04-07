@@ -1,16 +1,18 @@
-((window, Bubble, Select) => {
+((window, Bubble, Select, Insert) => {
     class Ctrl {
         constructor() {
             this.squresPnlEl = document.querySelector("#squres");
             this.arr = [22, 15, 35, 23, 1, 6, 5, 48, 10];
-            this.createSort("bubble");
+            this.createSort("insert");
             this.bind();
         }
         bind() {
             tabs.onclick = this.onTabsClick.bind(this);
             stopBtn.onclick = this.stopSort.bind(this);
             continueBtn.onclick = this.continueSort.bind(this);
-            restore.onclick = this.restoreSort.bind(this);
+            restore.onclick = this.resetSort.bind(this);
+            prev.onclick = this.onPrevBtnClick.bind(this);
+            next.onclick = this.onNextBtnClick.bind(this);
         }
         onTabsClick(e) {
             let target = e.target;
@@ -25,14 +27,20 @@
                 }
             });
         }
+        onPrevBtnClick() {
+            this.currSortMode.prev();
+        }
+        onNextBtnClick() {
+            this.currSortMode.next();
+        }
         stopSort() {
             this.currSortMode.stopSort();
         }
         continueSort() {
             this.currSortMode.continueSort();
         }
-        restoreSort() {
-            this.currSortMode.restoreSort();
+        resetSort() {
+            this.currSortMode.resetSort();
         }
         createSort(type) {
             if (type === "bubble") {
@@ -41,14 +49,20 @@
                     el: this.squresPnlEl
                 });
                 this.currSortMode = this.bubble;
-            } else {
+            } else if (type === "select") {
                 this.select = new Select({
                     arr: this.arr,
                     el: this.squresPnlEl
                 });
                 this.currSortMode = this.select;
+            } else if (type === "insert") {
+                this.insert = new Insert({
+                    arr: this.arr,
+                    el: this.squresPnlEl
+                });
+                this.currSortMode = this.insert;
             }
         }
     }
     new Ctrl();
-})(window, Bubble, Select);
+})(window, Bubble, Select, Insert);

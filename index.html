@@ -11,8 +11,9 @@
     <div class="container">
         <header>
             <ul id="tabs" class="tabs">
-                <li data-sort="bubble" class="active">冒泡排序</li>
+                <li data-sort="bubble">冒泡排序</li>
                 <li data-sort="select">选择排序</li>
+                <li data-sort="insert" class="active">插入排序</li>
             </ul>
         </header>
         <main>
@@ -26,6 +27,8 @@
             </div>
         </main>
         <footer>
+            <button id="prev" class="btn">上一步</button>
+            <button id="next" class="btn">下一步</button>
             <button id="continueBtn" class="btn">开始</button>
             <button id="stopBtn" class="btn">暂停</button>
             <button id="restore" class="btn">重置</button>
@@ -36,6 +39,7 @@
     <script src="./js/sort/sort.js"></script>
     <script src="./js/sort/bubble.js"></script>
     <script src="./js/sort/select.js"></script>
+    <script src="./js/sort/insert.js"></script>
     <script src="./js/main.js"></script>
 </body>
 

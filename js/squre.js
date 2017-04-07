@@ -6,6 +6,7 @@
             this.value = value;
             this.color = color;
             this.isTop = isTop;
+            this.id = new Symbol("squre");
             this.dom = this._createEl();
         }
         setColor(color) {
@@ -13,6 +14,12 @@
         }
         setDefaultColor() {
             this.el.style.background = this.color;
+        }
+        moveDown() {
+            this.el.style.transform = "translateY(150%)";
+        }
+        resetPostion() {
+            this.el.style.transform = "translateY(0)";
         }
         setPosition(left, bottom = 10) {
             this.el.style.left = left + "px";

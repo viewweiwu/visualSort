@@ -1,6 +1,6 @@
 ((window) => {
     const util = new Util();
-    class Select extends Sort {
+    class Insert extends Sort {
         constructor() {
             super(...arguments);
         }
@@ -11,56 +11,54 @@
             let arr = this.sortedArr;
             let snaps = [];
             let doneArr = [];
-            let markArr = [];
-            let i, j, min;
+            let i, j, target, mark;
             // 初始步骤
-            snaps.push(this._createSnap(arr, [...doneArr], [...markArr], "default"));
+            snaps.push(this._createSnap(arr, [...doneArr], mark, "default"));
             for (i = 0; i < arr.length; i++) {
-                min = i;
-                markArr.push(min);
-                snaps.push(this._createSnap(arr, [...doneArr], [...markArr], "mark", min));
-                for (j = i + 1; j < arr.length; j++) {
-                    snaps.push(this._createSnap(arr, [...doneArr], [...markArr], "find", j));
-                    if (arr[min] > arr[j]) {
-                        min = j;
-                        markArr.length = 0;
-                        markArr.push(min);
-                        snaps.push(this._createSnap(arr, [...doneArr], [...markArr], "mark", 200));
+                target = i;
+                mark = target;
+                snaps.push(this._createSnap(arr, [...doneArr], mark, "mark", target));
+                for (j = i; j >= 0; j--) {
+                    if (arr[j] > arr[target]) {
+                        util.swap(arr, j, target);
+                        snaps.push(this._createSnap(arr, [...doneArr], mark, "swap", j, target));
+                        target = j;
+                        mark = target;
+                        snaps.push(this._createSnap(arr, [...doneArr], mark, "mark", target));
                     }
                 }
-                if (min !== i) {
-                    util.swap(arr, min, i);
-                    markArr.push(i);
-                    snaps.push(this._createSnap(arr, [...doneArr], [...markArr], "mark2", i));
-                    snaps.push(this._createSnap(arr, [...doneArr], [...markArr], "swap", min, i));
-                }
-                doneArr.push(i);
-                markArr.length = 0;
-                snaps.push(this._createSnap(arr, [...doneArr], [...markArr], "done", i));
+                mark = null;
+                doneArr.push(this.squres(target).id);
+                snaps.push(this._createSnap(arr, [...doneArr], mark, "done", target));
             }
             return snaps;
         }
-        _createSnap(arr, doneArr, markArr, mode, curr, next) {
+        _createSnap(arr, doneArr, mark, mode, curr, next) {
             return {
                 arr,
                 mode,
                 curr,
                 next,
                 doneArr,
-                markArr
+                mark
             }
         }
         draw(snap = []) {
+            console.log(snap);
             let currSqure = snap.curr !== undefined && this.squres[snap.curr];
             let nextSqure = snap.next !== undefined && this.squres[snap.next];
             snap.arr.forEach((obj, i) => {
                 let targetSqure = this.squres[i];
-                if (snap.markArr.indexOf(i) >= 0)
+                if (snap.mark === i) {
                     targetSqure.setColor(this.color2);
-                else if (snap.doneArr.indexOf(i) >= 0)
+                    targetSqure.moveDown();
+                } else if (snap.doneArr.indexOf(i) >= 0) {
                     targetSqure.setColor(this.color3);
-                else
+                    targetSqure.resetPostion();
+                } else {
                     targetSqure.setDefaultColor();
+                    targetSqure.resetPostion();
+                }
             });
             switch (snap.mode) {
                 case "find":
@@ -76,12 +74,11 @@
                     currSqure.el = nextSqure.el;
                     nextSqure.el = el;
 
-                    currSqure.setColor(this.color2);
                     nextSqure.setColor(this.color2);
                     break;
             }
         }
     }
 
-    window.Select = Select;
+    window.Insert = Insert;
 })(window);

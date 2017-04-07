@@ -5,6 +5,9 @@
             arr[i] = arr[j];
             arr[j] = temp;
         }
+        insert(arr, i, j) {
+
+        }
     }
 
     window.Util = Util;

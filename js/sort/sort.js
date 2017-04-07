@@ -8,8 +8,9 @@
             this.squres = this._createSqures(); // 在页面上创建方块 
             this.containerEl = opts.el; // 父容器
             this.color1 = opts.color1 || "pink";
-            this.color2 = opts.color2 || "yellowgreen";
-            this.color3 = opts.color3 || "orange";
+            this.color2 = opts.color2 || "orange";
+            this.color3 = opts.color3 || "yellowgreen";
+            this.index = 0;
             this._renderSqures();
             this._initStyle();
         }
@@ -38,14 +39,10 @@
         _getSnaps() {
             // 由子类实现
         }
-        _createSnap(mode, curr, next) {
-            return {
-                mode,
-                curr,
-                next
-            }
+        _createSnap() {
+            // 由子类实现
         }
-        draw(obj) {
+        draw() {
             // 由子类实现
         }
         loop(index = 0) {
@@ -66,11 +63,20 @@
             this.stopSort();
             this.loop(this.index);
         }
-        restoreSort() {
+        resetSort() {
             this.index = 0;
+            this.draw(this.snaps[0]);
             this.stopSort();
-            this._renderSqures();
-            this._initStyle();
+        }
+        prev() {
+            this.index -= 1;
+            this.draw(this.snaps[this.index]);
+            this.stopSort();
+        }
+        next() {
+            this.index += 1;
+            this.draw(this.snaps[this.index]);
+            this.stopSort();
         }
     }
 
