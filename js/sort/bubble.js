@@ -2,7 +2,7 @@
     const util = new Util();
     class Bubble extends Sort {
         constructor() {
-            super(...arguments);
+            super("bubble", ...arguments);
         }
         _getSnaps() {
             /**
@@ -13,21 +13,21 @@
             let doneArr = [];
             let i, j;
             // 初始步骤
-            snaps.push(this._createSnap(arr, [...doneArr], "default"));
+            snaps.push(this._createSnap(arr, doneArr, "default"));
             for (i = 0; i < arr.length; i++) {
                 for (j = 0; j < arr.length - i - 1; j++) {
-                    snaps.push(this._createSnap(arr, [...doneArr], "find", j, j + 1));
+                    snaps.push(this._createSnap(arr, doneArr, "find", j, j + 1));
                     if (arr[j] > arr[j + 1]) {
                         util.swap(arr, j, j + 1);
-                        snaps.push(this._createSnap(arr, [...doneArr], "swap", j, j + 1));
+                        snaps.push(this._createSnap(arr, doneArr, "swap", j, j + 1));
                     }
                 }
                 doneArr.push(j);
-                snaps.push(this._createSnap(arr, [...doneArr], "done", j));
+                snaps.push(this._createSnap(arr, doneArr, "done", j));
             }
             return snaps;
         }
-        _createSnap(arr, doneArr, mode, curr, next) {
+        _createSnap(arr, [...doneArr], mode, curr, next) {
             return {
                 arr,
                 mode,

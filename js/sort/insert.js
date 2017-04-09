@@ -2,7 +2,7 @@
     const util = new Util();
     class Insert extends Sort {
         constructor() {
-            super(...arguments);
+            super("insert", ...arguments);
         }
         _getSnaps() {
             /**
@@ -11,54 +11,51 @@
             let arr = this.sortedArr;
             let snaps = [];
             let doneArr = [];
-            let i, j, target, mark;
+            let markArr = [];
+            let i, j, target;
             // 初始步骤
-            snaps.push(this._createSnap(arr, [...doneArr], mark, "default"));
+            snaps.push(this._createSnap(arr, doneArr, markArr, "default"));
             for (i = 0; i < arr.length; i++) {
                 target = i;
-                mark = target;
-                snaps.push(this._createSnap(arr, [...doneArr], mark, "mark", target));
-                for (j = i; j >= 0; j--) {
+                markArr[0] = target;
+                snaps.push(this._createSnap(arr, doneArr, markArr, "mark", target));
+                for (j = i - 1; j >= 0; j--) {
                     if (arr[j] > arr[target]) {
-                        util.swap(arr, j, target);
-                        snaps.push(this._createSnap(arr, [...doneArr], mark, "swap", j, target));
+                        snaps.push(this._createSnap(arr, doneArr, markArr, "find", j));
+                        util.swap(arr, target, j);
+                        util.swap(doneArr, target, j);
+                        markArr[0] = j;
+                        snaps.push(this._createSnap(arr, doneArr, markArr, "swap", target, j));
                         target = j;
-                        mark = target;
-                        snaps.push(this._createSnap(arr, [...doneArr], mark, "mark", target));
                     }
                 }
-                mark = null;
-                doneArr.push(this.squres(target).id);
-                snaps.push(this._createSnap(arr, [...doneArr], mark, "done", target));
+                doneArr.push(i);
+                snaps.push(this._createSnap(arr, doneArr, markArr, "done", i));
             }
             return snaps;
         }
-        _createSnap(arr, doneArr, mark, mode, curr, next) {
+        _createSnap(arr, [...doneArr], [...markArr], mode, curr, next) {
             return {
                 arr,
                 mode,
                 curr,
                 next,
                 doneArr,
-                mark
+                markArr
             }
         }
         draw(snap = []) {
-            console.log(snap);
             let currSqure = snap.curr !== undefined && this.squres[snap.curr];
             let nextSqure = snap.next !== undefined && this.squres[snap.next];
+            console.log(snap.mode);
             snap.arr.forEach((obj, i) => {
                 let targetSqure = this.squres[i];
-                if (snap.mark === i) {
-                    targetSqure.setColor(this.color2);
-                    targetSqure.moveDown();
-                } else if (snap.doneArr.indexOf(i) >= 0) {
+                if (snap.markArr.indexOf(i) >= 0)
                     targetSqure.setColor(this.color3);
-                    targetSqure.resetPostion();
-                } else {
+                else if (snap.doneArr.indexOf(i) >= 0)
+                    targetSqure.setColor(this.color3);
+                else
                     targetSqure.setDefaultColor();
-                    targetSqure.resetPostion();
-                }
             });
             switch (snap.mode) {
                 case "find":
@@ -74,11 +71,11 @@
                     currSqure.el = nextSqure.el;
                     nextSqure.el = el;
 
-                    nextSqure.setColor(this.color2);
+                    currSqure.setColor(this.color3);
+                    nextSqure.setColor(this.color3);
                     break;
             }
         }
     }
-
     window.Insert = Insert;
 })(window);

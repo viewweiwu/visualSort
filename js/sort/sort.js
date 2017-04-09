@@ -1,11 +1,12 @@
 ((window, Util, Squre) => {
     const util = new Util();
     class Sort {
-        constructor(opts) {
+        constructor(type, opts) {
             this.arr = opts.arr;
+            this.type = type;
             this.sortedArr = [...opts.arr]; // 拷贝数组
-            this.snaps = this._getSnaps(); // 创建快照
             this.squres = this._createSqures(); // 在页面上创建方块 
+            this.snaps = this._getSnaps(); // 创建快照
             this.containerEl = opts.el; // 父容器
             this.color1 = opts.color1 || "pink";
             this.color2 = opts.color2 || "orange";
@@ -15,9 +16,9 @@
             this._initStyle();
         }
         _createSqures() {
-            return this.arr.map(obj => {
+            return this.arr.map((obj, i) => {
                 let height = obj * 10;
-                return new Squre(height, obj, obj > 5 ? false : true);
+                return new Squre(this.type + i, height, obj, obj > 5 ? false : true);
             });
         }
         _renderSqures() {
@@ -51,7 +52,7 @@
                 index += 1;
                 this.index = index;
                 this.draw(obj);
-                this.timer = setTimeout(() => this.loop(index), 500);
+                this.timer = setTimeout(() => this.loop(index), 400);
             } else {
                 return;
             }

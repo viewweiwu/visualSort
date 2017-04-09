@@ -1,12 +1,12 @@
 ((window) => {
     class Squre {
-        constructor(height = 0, value = 0, isTop = false, width = 50, color = 'transparent') {
+        constructor(id, height = 0, value = 0, isTop = false, width = 50, color = 'transparent') {
             this.width = width;
             this.height = height;
             this.value = value;
             this.color = color;
             this.isTop = isTop;
-            this.id = new Symbol("squre");
+            this.id = id;
             this.dom = this._createEl();
         }
         setColor(color) {
