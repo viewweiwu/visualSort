@@ -2,8 +2,9 @@
     class Ctrl {
         constructor() {
             this.squresPnlEl = document.querySelector("#squres");
+            this.progressEl = document.querySelector("#progress");
             this.arr = [22, 15, 35, 23, 1, 6, 5, 48, 10];
-            this.createSort("insert");
+            this.createSort("select");
             this.bind();
         }
         bind() {
@@ -43,22 +44,26 @@
             this.currSortMode.resetSort();
         }
         createSort(type) {
+            this.progressEl.value = 0;
             if (type === "bubble") {
                 this.bubble = new Bubble({
                     arr: this.arr,
-                    el: this.squresPnlEl
+                    el: this.squresPnlEl,
+                    progressEl: this.progressEl
                 });
                 this.currSortMode = this.bubble;
             } else if (type === "select") {
                 this.select = new Select({
                     arr: this.arr,
-                    el: this.squresPnlEl
+                    el: this.squresPnlEl,
+                    progressEl: this.progressEl
                 });
                 this.currSortMode = this.select;
             } else if (type === "insert") {
                 this.insert = new Insert({
                     arr: this.arr,
-                    el: this.squresPnlEl
+                    el: this.squresPnlEl,
+                    progressEl: this.progressEl
                 });
                 this.currSortMode = this.insert;
             }

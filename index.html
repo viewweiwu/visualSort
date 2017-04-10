@@ -11,9 +11,9 @@
     <div class="container">
         <header>
             <ul id="tabs" class="tabs">
-                <li data-sort="bubble">冒泡排序</li>
+                <li data-sort="bubble" class="active">冒泡排序</li>
                 <li data-sort="select">选择排序</li>
-                <li data-sort="insert" class="active">插入排序</li>
+                <li data-sort="insert">插入排序</li>
             </ul>
         </header>
         <main>
@@ -28,6 +28,7 @@
         </main>
         <footer>
             <button id="prev" class="btn">上一步</button>
+            <input id="progress" type="range" value="0" min="0" max="1">
             <button id="next" class="btn">下一步</button>
             <button id="continueBtn" class="btn">开始</button>
             <button id="stopBtn" class="btn">暂停</button>
