@@ -78,7 +78,7 @@
             let result = [];
             let arr = [...opts.arr];
 
-            arr.forEach((obj, i) => result.push(this.getSnapSettings(obj, i, opts.markArr, opts.doneArr, opts.mode, opts.curr, opts.next)));
+            arr.forEach((obj, i) => result.push(this.getSqureSettings(obj, i, opts.markArr, opts.doneArr, opts.mode, opts.curr, opts.next)));
 
             if (opts.mode === "swap") {
                 let temp = arr[opts.curr];
@@ -90,11 +90,12 @@
         }
 
         _addSnap(opts) {
+            console.table(this._createSnap(opts));
             this.snaps.push(this._createSnap(opts));
         }
 
         // 获取具体快照的设定
-        getSnapSettings(obj, i, markArr, doneArr, mode, curr, next) {
+        getSqureSettings(obj, i, markArr, doneArr, mode, curr, next) {
             let temp = {
                 left: 10 + i * 70,
                 bottom: 10,

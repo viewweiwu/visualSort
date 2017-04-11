@@ -4,7 +4,7 @@
             this.squresPnlEl = document.querySelector("#squres");
             this.progressEl = document.querySelector("#progress");
             this.arr = [22, 15, 35, 23, 1, 6, 5, 48, 10];
-            this.createSort("merge");
+            this.createSort("bubble");
             this.bind();
         }
         bind() {
