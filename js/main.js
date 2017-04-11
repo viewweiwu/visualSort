@@ -4,7 +4,7 @@
             this.squresPnlEl = document.querySelector("#squres");
             this.progressEl = document.querySelector("#progress");
             this.arr = [22, 15, 35, 23, 1, 6, 5, 48, 10];
-            this.createSort("select");
+            this.createSort("merge");
             this.bind();
         }
         bind() {
@@ -45,6 +45,7 @@
         }
         createSort(type) {
             this.progressEl.value = 0;
+            this.currSortMode && this.currSortMode.stopSort();
             if (type === "bubble") {
                 this.bubble = new Bubble({
                     arr: this.arr,
@@ -66,8 +67,15 @@
                     progressEl: this.progressEl
                 });
                 this.currSortMode = this.insert;
+            } else if (type === "merge") {
+                this.merge = new Merge({
+                    arr: this.arr,
+                    el: this.squresPnlEl,
+                    progressEl: this.progressEl
+                });
+                this.currSortMode = this.merge;
             }
         }
     }
     new Ctrl();
-})(window, Bubble, Select, Insert);
+})(window, Bubble, Select, Insert, Merge);

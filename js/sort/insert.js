@@ -17,6 +17,7 @@
             for (i = 0; i < arr.length; i++) {
                 target = i;
                 markArr[target] = true;
+                doneArr[i] = true;
                 this._addSnap({ arr, doneArr, markArr, mode: "mark", curr: target });
                 for (j = i - 1; j >= 0; j--) {
                     if (arr[j] > arr[target]) {
@@ -29,7 +30,6 @@
                         this._addSnap({ arr, doneArr, markArr, mode: "swap", curr: target, next: j });
                     }
                 }
-                doneArr[i] = true;
                 this._addSnap({ arr, doneArr, markArr, mode: "done", curr: i });
                 markArr = {};
             }

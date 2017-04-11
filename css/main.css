@@ -76,7 +76,7 @@ ul {
   margin: 10px;
   border: 1px solid;
   position: absolute;
-  transition: left 300ms;
+  transition: 300ms;
 }
 .squres .squre .text {
   left: 0;

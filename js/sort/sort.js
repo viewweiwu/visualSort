@@ -13,6 +13,7 @@
             this.color2 = opts.color2 || "orange";
             this.color3 = opts.color3 || "yellowgreen";
             this.index = 0;
+            this.stepSpeed = 300;
             this.progressEl.oninput = this.onRangeChange.bind(this);
             this._getSnaps();
             this._renderSqures();
@@ -100,6 +101,13 @@
                 value: obj,
                 color: "default"
             }
+
+            // 设定位置
+            if (markArr && markArr[i] === true) {
+                temp.bottom = -100;
+            }
+
+            // 设定颜色
             if (doneArr[i] === true) {
                 temp.color = "done";
             }
@@ -141,7 +149,7 @@
                 this.index = index;
                 this.draw(obj);
                 this.progressEl.value = this.index;
-                this.timer = setTimeout(() => this.loop(index), 100);
+                this.timer = setTimeout(() => this.loop(index), this.stepSpeed);
             } else {
                 return;
             }
